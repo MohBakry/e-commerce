@@ -1,8 +1,9 @@
 import axios from "axios";
-import { Children, createContext } from "react";
+import { Children, createContext, useState } from "react";
 
 export let WishContext=createContext()
 export default function WishContextProvider(props){
+      let [Wishnum ,setWishnum] =useState(0)
       let headers={
             token:localStorage.getItem('token')
       }
@@ -15,8 +16,11 @@ function addToWish(id){
 function getLoggedWish(){
       return axios.get(`https://ecommerce.routemisr.com/api/v1/wishlist` , {
             headers})}
+function deleteFromWish(id){
+      return axios.delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${id}`,{headers})
+}
 return <>
-<WishContext.Provider value={{addToWish ,getLoggedWish}}>
+<WishContext.Provider value={{Wishnum ,setWishnum , addToWish ,getLoggedWish,deleteFromWish }}>
       {props.children}
 </WishContext.Provider>
 

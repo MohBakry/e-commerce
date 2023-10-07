@@ -28,7 +28,8 @@ export default function CategorySlider() {
   )
   return (
     <>
-    <div className="row">
+    <h6 className='m-3'>Shop Popular Categories</h6>
+    <div className="row m-3">
     <Slider {...settings}>
       { category.map((cat)=> <img src={cat.image} height="150px" className='px-1' alt="" /> )  }
       

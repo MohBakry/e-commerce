@@ -7,9 +7,15 @@ import Heart from "react-heart"
 
 import style from './ProductDetails.module.css'
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { useContext } from 'react';
+import { CartContext } from '../../Context/CartContext';
+
+
 
 
 export default function ProductDetails() {
+  let { addToCart, setCartnum, cartnum } = useContext(CartContext)
   const [active, setActive] = useState(false)
   var settings = {
     dots: true,
@@ -28,8 +34,22 @@ return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
 
   let {data}=useQuery('ProductDetails', ()=>getProductDetails(id))
   console.log(data?.data.data);
+
+  async function addProductToCart(id) {
+    let { data } = await addToCart(id)
+
+    if (data.status === 'success') {
+      toast.success(data.message)
+
+    }
+    else {
+      toast.error(data.message)
+    }
+  }
+
   return (
-    <>
+   
+   <>
     <div className="container">
       {data?.data.data?<div className="row align-items-center">
         <div className="col-md-4">
@@ -56,7 +76,10 @@ return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
               <span className='fas fa-star text-warning'>{data?.data.data.ratingsAverage}</span>
 
             </div>
-            <button className='btn btn-success w-100'>Add To Cart</button>
+            <div>
+                <button onClick={() => { addProductToCart(id) }} className='btn w-100 btn-warning my-2 ' >Add To Cart</button>
+
+              </div>
             
           </div>
 

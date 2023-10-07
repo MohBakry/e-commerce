@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <>
   
-   <div className=" p-5 b-0 position-absolute w-100" style={{backgroundColor:'#eeeee4'}}>
+   <div className=" p-5 b-0 position-absolute w-100" style={{backgroundColor:'#DCE1E2'}}>
       <div className="container">
         
       <h3>Get The FreshCart App</h3>

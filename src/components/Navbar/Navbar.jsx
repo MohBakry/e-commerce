@@ -4,6 +4,7 @@ import { CartContext } from '../../Context/CartContext'
 import { CounterContext } from '../../Context/CounterContext'
 import { UserContext } from '../../Context/UserContext'
 import style from './Navbar.module.css'
+import img from '../../asstes/logo.jpg'
 
 
 export default function Navbar() {
@@ -22,7 +23,7 @@ export default function Navbar() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top  " style={{ margi: '200px' }}>
         <div className="container-fluid ">
-          <a className="navbar-brand" href="#">Navbar</a>
+          <a className="navbar-brand" href="#"><img src={img} width="150px" alt="" /></a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -41,9 +42,9 @@ export default function Navbar() {
 
                   </Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" to="Product">Product</Link>
-                </li>
+                </li> */}
                 <li className="nav-item">
                   <Link className="nav-link" to="Categories">Categories</Link>
 
