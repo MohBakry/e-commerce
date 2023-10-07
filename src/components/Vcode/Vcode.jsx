@@ -1,5 +1,5 @@
 
-import style from './ForgetPassword.module.css'
+import style from './Vcode.module.css'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import React, { useContext, useState } from 'react'
@@ -8,20 +8,20 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Bars } from 'react-loader-spinner'
 import { UserContext } from '../../Context/UserContext'
 
-export default function ForgetPassword() {
+export default function Vcode() {
   let navigate = useNavigate()
   let [error, setError] = useState('')
   let [loading, setLoading] = useState(false)
-  // let { SetUserToken } = useContext(UserContext)
+  let { SetUserToken } = useContext(UserContext)
 
   let users = {
-    email: '',
+    resetCode: '',
    
   }
 
   let valid = Yup.object({
 
-    email: Yup.string().required('email required').email('enter valed email'),
+    resetCode: Yup.string().required('code required').min(3, 'min 3').max(8, 'max 8')
 
 
 
@@ -29,16 +29,16 @@ export default function ForgetPassword() {
 
   async function submitForm(v) {
     setLoading(true)
-    let { data } = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords', v).catch((err) => {
+    let { data } = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode', v).catch((err) => {
       setError(err.response.data.message);
       setLoading(false)
     })
 
-    if (data.statusMsg === 'success') {
+    if (data.status === 'Success') {
       setLoading(true)
-      navigate('/Vcode')
+      navigate('/ResetPW')
       // localStorage.setItem('token', data.token)
-      // SetUserToken(data.token)
+     
     }
 
   }
@@ -57,14 +57,14 @@ export default function ForgetPassword() {
     <>
 
       <div className="container">
-        <h3>Please Enter Your Email</h3>
+        <h3>Please Enter Your Verify Code</h3>
         <form onSubmit={formik.handleSubmit} >
           {error ? <div className='alert alert-danger'>{error}</div> : ''}
 
-          <label htmlFor="email"> Email:</label>
-          <input placeholder='Please Enter Your Email' onBlur={formik.handleBlur} onChange={formik.handleChange} type="email" className='form-control my-2' name="email" id='email' />
-          {formik.errors.email && formik.touched.email ? <div className='alert alert-danger'>
-            {formik.errors.email}</div> : ''}
+          <label htmlFor=""> Code:</label>
+          <input placeholder='Please Enter Your Verify Code' onBlur={formik.handleBlur} onChange={formik.handleChange} type="text" className='form-control my-2' name='resetCode' id='resetCode' />
+          {/* {formik.errors.email && formik.touched.email ? <div className='alert alert-danger'>
+            {formik.errors.email}</div> : ''} */}
           
 
 
@@ -89,4 +89,6 @@ export default function ForgetPassword() {
     </>
   )
 }
+
+
 

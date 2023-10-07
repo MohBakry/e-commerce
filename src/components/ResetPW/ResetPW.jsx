@@ -1,16 +1,14 @@
-import React, { useContext, useState } from 'react'
-import style from './Login.module.css'
+
+import style from './ResetPW.module.css'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { Bars } from 'react-loader-spinner'
 import { UserContext } from '../../Context/UserContext'
 
-
-
-export default function Login() {
-
+export default function ResetPW() {
   let navigate = useNavigate()
   let [error, setError] = useState('')
   let [loading, setLoading] = useState(false)
@@ -18,30 +16,33 @@ export default function Login() {
 
   let users = {
     email: '',
-    password: '',
+    newPassword:''
+   
   }
 
   let valid = Yup.object({
 
     email: Yup.string().required('email required').email('enter valed email'),
+    newPassword: Yup.string().required('password required').matches(/^[A-Z][a-z0-9]{5,10}$/),
 
-    password: Yup.string().required('password required').matches(/^[A-Z][a-z0-9]{5,10}$/),
+
 
   })
 
   async function submitForm(v) {
     setLoading(true)
-    let { data } = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin', v).catch((err) => {
+    let { data } = await axios.put('https://ecommerce.routemisr.com/api/v1/auth/resetPassword', v).catch((err) => {
       setError(err.response.data.message);
       setLoading(false)
+      
     })
 
-    if (data.message === 'success') {
-      setLoading(true)
-      navigate('/Home')
-      localStorage.setItem('token', data.token)
-      SetUserToken(data.token)
-    }
+    // if (data.status === 'Success') {
+    //   setLoading(true)
+      navigate('/Login')
+      // localStorage.setItem('token', data.token)
+     
+    // }
 
   }
 
@@ -59,16 +60,18 @@ export default function Login() {
     <>
 
       <div className="container">
-        <h3>Signin</h3>
+        <h3>Please Enter Your Verify Code</h3>
         <form onSubmit={formik.handleSubmit} >
           {error ? <div className='alert alert-danger'>{error}</div> : ''}
 
-          <label htmlFor="email"> Email:</label>
-          <input onBlur={formik.handleBlur} onChange={formik.handleChange} type="email" className='form-control my-2' name="email" id='email' />
+           <label htmlFor="email"> Email:</label>
+          <input placeholder='Please Enter Your Email' onBlur={formik.handleBlur} onChange={formik.handleChange} type="email" className='form-control my-2' name="email" id='email' />
           {formik.errors.email && formik.touched.email ? <div className='alert alert-danger'>{formik.errors.email}</div> : ''}
-          <label htmlFor="password"> Password:</label>
-          <input onBlur={formik.handleBlur} onChange={formik.handleChange} type="password" className='form-control my-2' name="password" id='userName' />
-          {formik.errors.password && formik.touched.password ? <div className='alert alert-danger'>{formik.errors.password}</div> : ''}
+          <label htmlFor="newPassword">New Password:</label>
+          <input placeholder='Please Enter Your New Password' onBlur={formik.handleBlur} onChange={formik.handleChange} type="password" className='form-control my-2' name="newPassword" id='newPassword' />
+          {/* {formik.errors.password && formik.touched.password ? <div className='alert alert-danger'>{formik.errors.password}</div> : ''} */}
+
+          
 
 
 
@@ -82,9 +85,8 @@ export default function Login() {
             visible={true}
           /></button> :
             <div>
-<center>              <button disabled={!(formik.isValid && formik.dirty)} type='submit' className='w-50 btn btn-warning'>Submit</button>
-</center>
-             <center> <Link to='/ForgetPassword' >Forget Password</Link></center>
+              <button disabled={!(formik.isValid && formik.dirty)} type='submit' className='btn btn-warning'>Submit</button>
+              {/* <Link to='/ForgetPassword' >Forget Password</Link> */}
             </div>
 
           }
@@ -93,4 +95,8 @@ export default function Login() {
     </>
   )
 }
+
+
+
+
 

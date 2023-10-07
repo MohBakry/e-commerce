@@ -21,6 +21,8 @@ import { store } from "./Redux/store";
 import WishContextProvider from "./Context/WishContext";
 import WishList from "./components/WishList/WishList";
 import ForgetPassword from "./components/ForgetPassword/ForgetPassword";
+import Vcode from './components/Vcode/Vcode'
+import ResetPW from "./components/ResetPW/ResetPW";
 
 function App() {
   let qclient = new QueryClient()
@@ -37,8 +39,10 @@ function App() {
         { path: 'Checkout/:id', element: <ProtectRoutes><Checkout /></ProtectRoutes> },
         { path: 'Product', element: <ProtectRoutes><Product /></ProtectRoutes> },
         { path: 'Categories', element: <ProtectRoutes><Categories /></ProtectRoutes> },
-        { path: 'Register', element: <Register /> },
         { path: 'ForgetPassword', element: <ForgetPassword /> },
+        { path: 'Register', element: <Register /> },
+        { path: 'Vcode', element: <Vcode /> },
+        { path: 'ResetPW', element: <ResetPW /> },
         { path: '*', element: <NotFound /> },
 
       ]
